@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Manage Extensions | Browser Notepad</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.21/jquery-ui.min.js" type="text/javascript"></script>
+		<style>
+		body {
+			font-family: Arial, Helvetica, Both, Banana, "Get Rekt", Noob, sans-serif;
+		}
+		</style>
+	</head>
+	<body onload="loadExtensions()"> <!--For now-->
+		<h1>Manage Extensions</h1>
+		<div id="extensions"></div>
+		<script>
+		function loadExtensions() {
+			for (var i = 0, len = localStorage.length; i < len; ++i ) {
+				console.log( localStorage.key(i) + ": " + localStorage.getItem(localStorage.key(i))); // Key: value
+				
+				var version = String(localStorage.getItem(localStorage.key(i)).match(/(?<=<extversion>).*?(?=<\/extversion>)/))
+				var name = localStorage.key(i);
+				var valueOfThingy = localStorage.getItem(localStorage.key(i));
+				var extensionDiv = document.getElementById("extensions");
+
+				var newExtensionDiv = document.createElement("section");
+				newExtensionDiv.id = name;
+				newExtensionDiv.style = "border-radius: 10px; padding: 10px; display: table; background-color: Gainsboro; font-family: sans-serif; font-size: 18px; margin-top: 5px";
+				newExtensionDiv.innerHTML = name + "<br>Version " + version + "<br><button onclick='deleteExtension(" + '"' + name + '"' + ")'>Delete</button>";
+				extensionDiv.appendChild(newExtensionDiv);
+			}
+		}
+		
+		function deleteExtension(extensionname) {
+			var deleteornot = confirm("Are you sure you want to delete this extension?");
+			if (deleteornot) {
+				localStorage.removeItem(extensionname);
+				document.getElementById("extensions").removeChild(document.getElementById(extensionname));
+			}
+		}
+		</script>
+	</body>
+</html>

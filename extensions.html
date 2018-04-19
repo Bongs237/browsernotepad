@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<meta charset="UTF-8">
+	<title>Extensions | Browser Notepad</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.21/jquery-ui.min.js" type="text/javascript"></script>
+	
+	<style>
+	body {
+		font-family: Arial, Helvetica, Both, Banana, "Get Rekt", Noob, sans-serif;
+	}
+	</style>
+	</head>
+	<body>
+		<h1>Some cool extensions for Browser Notepad</h1>
+		<h4>Copy (<kbd>Ctrl + C</kbd>) and paste (<kbd>Ctrl + V</kbd>) the extensions into the Extension box in Browser Notepad.</h4>
+		<ul style="list-style-type:none">
+			<li>
+				Background Color Changer
+				<br>
+				<textarea rows="6" cols="25" readonly="Blue AND red!"><extname>Background Color Changer</extname><extversion>1.0</extversion>Pick a color, any color:<input type="color" id="colorpicker" value="#FFFFFF" onchange='var bob = document.getElementById("colorpicker").value;var x = document.getElementsByTagName("div")[3];x.style.backgroundColor = bob;'></textarea>
+			</li>
+			<li>
+				Text Color Changer
+				<br>
+				<textarea rows="6" cols="25" readonly="Blue AND red!"><extname>Text Color Changer</extname><extversion>1.0</extversion>Title Color:<input type="color" id="titlecolor" value="#000000" onchange='var bob = document.getElementById("titlecolor").value; var x = document.getElementsByClassName("title"); 	var i; for (i = 0; i < x.length; i++) {x[i].style.color = bob;}'>Subtitle Color:<input type="color" id="subtitlecolor" value="#000000" onchange='var bob1 = document.getElementById("subtitlecolor").value; var y = document.getElementsByClassName("subtitle"); 	var i; for (i = 0; i < y.length; i++) {y[i].style.color = bob1;}'>Text Color:<input type="color" id="textcolor" value="#000000" onchange='var bob1 = document.getElementById("textcolor").value; var y = document.getElementById("textDiv"); y.style.color = bob1;'></textarea>
+			</li>
+		</ul>
+	</body>
+</html>

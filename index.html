@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Browser Notepad v2.2</title>
+<!--Google Fonts-->
+<link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Abril+Fatface" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Merriweather" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+<!---->
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<style>
+extname {
+    font-size: 10px;
+	margin-right: 5px;
+}
+
+extversion {
+	display: none;
+}
+</style>
+
+</head>
+<body onload="loadExtensions()">
+<p style="font-family: sans-serif; font-size: 24px; display: inline; padding-top: 60px; padding-bottom: 60px;">Browser Notepad</p>
+<span style="color: gray; font-family: sans-serif; font-size: 12px;">v2.2</span>
+<br>
+<div id="extensions"><!--Div for all the extensions-->
+	<div style="background-color: Gainsboro; font-family: sans-serif; font-size: 18px; text-align: center;">
+		<div>
+			Font:
+			<select id = "fontList" onchange="doStuffAndThings()">
+				<option value = "1" selected>Arial</option>
+				<option value = "2">F@NC3</option>
+				<option value = "3">F@NC3 #2</option>
+				<option value = "4">H4x0r L1t3</option>
+				<option value = "5">HACKER PRO</option>
+				<option value = "6">Comic Sans MS</option>
+				<option value = "7">Impact</option>
+				<option value = "8">0ld3 F4nc33</option>
+				<option value = "9">Curious "Georgia"</option>
+				<option value = "10">CMDPrompt</option>
+				<option value = "11">Unfanc3</option>
+				<option value = "12">Unfanc3 Signed</option>
+				<option value = "13">Unfanc3 Writing</option>
+				<option disabled>---Online (Google) Fonts---</option>
+				<option value = "14">Roboto Mono</option>
+				<option value = "15">Abril Fatface</option>
+				<option value = "16">Raleway</option>
+				<option value = "17">Press Start 2P</option>
+				<option value = "18">Pacifico</option>
+				<option value = "19">Ubuntu</option>
+				<option value = "20">Roboto Slab</option>
+				<option value = "21">Merriweather</option>
+				<option value = "22">Open Sans</option>
+			</select>
+			Title Size:
+			<select id = "sizeList" onchange="doMoreStuffAndThings()">
+				<option value = "1">Super-Duper-Extra-Small</option>
+				<option value = "2">Super-Extra-Small</option>
+				<option value = "3">Extra-Small</option>
+				<option value = "4">Small</option>
+				<option value = "5" selected>Medium</option>
+				<option value = "6">Large</option>
+				<option value = "7">Extra-Large</option>
+				<option value = "8">Super-Extra-Large</option>
+			</select>
+			Subtitle Size:
+			<select id = "size3List" onchange="changeSubtitleSize()">
+				<option value = "1">Super-Duper-Extra-Small</option>
+				<option value = "2">Super-Extra-Small</option>
+				<option value = "3">Extra-Small</option>
+				<option value = "4">Small</option>
+				<option value = "5" selected>Medium</option>
+				<option value = "6">Large</option>
+				<option value = "7">Extra-Large</option>
+				<option value = "8">Super-Extra-Large</option>
+			</select>
+			Text Size:
+			<select id = "size2List" onchange="doEvenMoreStuffAndThings()">
+				<option value = "1">Super-Duper-Extra-Small</option>
+				<option value = "2">Super-Extra-Small</option>
+				<option value = "3">Extra-Small</option>
+				<option value = "4">Small</option>
+				<option value = "5" selected>Medium</option>
+				<option value = "6">Large</option>
+				<option value = "7">Extra-Large</option>
+				<option value = "8">Super-Extra-Large</option>
+			</select>
+			Download this note as
+			<select id = "dlNote">
+				<option value = "1">Text document</option>
+				<option value = "2" selected>HTML file</option>
+			</select>
+			<button onclick="saveTextAsFile()">Download</button>
+			Add a
+			<select id = "addstuff">
+				<option value = "1">title</option>
+				<option value = "2">subtitle</option>
+				<option value = "3">paragraph</option>
+			</select>
+			<button onclick="addText()">Add</button>
+			<br>
+			Import note
+			<input type="file" id="fileToLoad">
+			<button onclick="loadFileAsText()">Import</button>
+			&nbsp;
+			<span title="Some HTML-like code that does things. See some examples by pressing the 'See Some Browser Notepad Extensions' button.">Extensions:</span>
+
+			<input type="text" id="extension1">
+			<button onclick="addExtension()">Add</button>
+			<a href="extensions.html" target="_blank"><button>See Some Browser Notepad Extensions</button></a>
+			<a href="manageext.html" target="_blank"><button>Manage Extensions</button></a>
+		</div>
+	</div>
+</div>
+
+<div contenteditable="true" id="notes">
+	<div id="textDiv">
+		<h1 class="title" style="font-size: 32px;">Title Here</h1>
+		<p>Text Here</p>
+	</div>
+</div>
+<script>
+function parseHTML(html) {
+    var t = document.createElement('template');
+    t.innerHTML = html;
+    return t.content.cloneNode(true);
+}
+
+function addExtension() {
+	var valueOfThingy = document.getElementById("extension1").value;
+	var extensionDiv = document.getElementById("extensions");
+
+	var newExtensionDiv = document.createElement("section");
+	newExtensionDiv.style = "background-color: Gainsboro; font-family: sans-serif; font-size: 18px; text-align: center; margin-top: 5px";
+	newExtensionDiv.innerHTML = valueOfThingy;
+	extensionDiv.appendChild(newExtensionDiv);
+	document.getElementById("extension1").value = "";
+	var str = String(valueOfThingy.match(/(?<=<extname>).*?(?=<\/extname>)/));
+	localStorage[str] = valueOfThingy;
+	console.log(str);
+}
+
+function loadExtensions() {
+	for (var i = 0, len = localStorage.length; i < len; ++i ) {
+		console.log( localStorage.key(i) + ": " + localStorage.getItem(localStorage.key(i))); // Key: value
+		var valueOfThingy = localStorage.getItem(localStorage.key(i));
+		var extensionDiv = document.getElementById("extensions");
+
+		var newExtensionDiv = document.createElement("section");
+		newExtensionDiv.style = "background-color: Gainsboro; font-family: sans-serif; font-size: 18px; text-align: center; margin-top: 5px";
+		newExtensionDiv.innerHTML = valueOfThingy;
+		extensionDiv.appendChild(newExtensionDiv);
+	}
+}
+
+document.getElementById("notes").style.fontFamily = "'Arial', Helvetica, sans-serif";
+document.getElementsByClassName("title")[0].style.fontSize = "32px";
+document.getElementById("textDiv").style.fontSize = "16px";
+function doStuffAndThings() {
+	var e = document.getElementById("fontList");
+	var font_picked = e.options[e.selectedIndex].value;
+	if (font_picked == 1) {
+		document.getElementById("notes").style.fontFamily = "Arial, Helvetica, sans-serif";
+	} else if (font_picked == 2) {
+		document.getElementById("notes").style.fontFamily = "'Times New Roman', Times, serif";
+	} else if (font_picked == 3) {
+		document.getElementById("notes").style.fontFamily = "'Palatino Linotype', 'Book Antiqua', Palatino, serif";
+	} else if (font_picked == 4) {
+		document.getElementById("notes").style.fontFamily = "'Courier New', Courier, monospace";
+	} else if (font_picked == 5) {
+		document.getElementById("notes").style.fontFamily = "'Lucida Console', Monaco, monospace";
+	} else if (font_picked == 6) {
+		document.getElementById("notes").style.fontFamily = "'Comic Sans MS', cursive, sans-serif";
+	} else if (font_picked == 7) {
+		document.getElementById("notes").style.fontFamily = "Impact, Charcoal, sans-serif";
+	} else if (font_picked == 8) {
+		document.getElementById("notes").style.fontFamily = "'Trebuchet MS', Helvetica, sans-serif";
+	} else if (font_picked == 9) {
+		document.getElementById("notes").style.fontFamily = "Georgia, serif";
+	} else if (font_picked == 10) {
+		document.getElementById("notes").style.fontFamily = "Consolas, Monaco, monospace";
+	} else if (font_picked == 11) {
+		document.getElementById("notes").style.fontFamily = '"Segoe UI", Lato, Roboto, sans-serif';
+	} else if (font_picked == 12) {
+		document.getElementById("notes").style.fontFamily = '"Segoe Script", cursive, sans-serif';
+	} else if (font_picked == 13) {
+		document.getElementById("notes").style.fontFamily = '"Segoe Print", sans-serif';
+	} else if (font_picked == 14) {
+		document.getElementById("notes").style.fontFamily = '"Roboto Mono", monospace';
+	} else if (font_picked == 15) {
+		document.getElementById("notes").style.fontFamily = '"Abril Fatface", cursive, serif';
+	} else if (font_picked == 16) {
+		document.getElementById("notes").style.fontFamily = '"Raleway", sans-serif';
+	} else if (font_picked == 17) {
+		document.getElementById("notes").style.fontFamily = '"Press Start 2P", monospace';
+	} else if (font_picked == 18) {
+		document.getElementById("notes").style.fontFamily = '"Pacifico", cursive';
+	} else if (font_picked == 19) {
+		document.getElementById("notes").style.fontFamily = '"Ubuntu", Roboto, sans-serif';
+	} else if (font_picked == 20) { // Big 20 in 1.8, the Font Update
+		document.getElementById("notes").style.fontFamily = '"Roboto Slab", serif';
+	} else if (font_picked == 21) {
+		document.getElementById("notes").style.fontFamily = '"Merriweather", serif';
+	} else if (font_picked == 22) {
+		document.getElementById("notes").style.fontFamily = '"Open Sans", sans-serif';
+	}
+}
+
+function doMoreStuffAndThings() {
+	var f = document.getElementById("sizeList");
+	var size_picked = f.options[f.selectedIndex].value;
+	var title_size;
+	var titles = document.getElementsByClassName("title");
+
+	if (size_picked == 1) {
+		title_size = "24px";
+	} else if (size_picked == 2) {
+		title_size = "26px";
+	} else if (size_picked == 3) {
+		title_size = "28px";
+	} else if (size_picked == 4) {
+		title_size = "30px";
+	} else if (size_picked == 5) { // Medium
+		title_size = "32px";
+	} else if (size_picked == 6) {
+		title_size = "34px";
+	} else if (size_picked == 7) {
+		title_size = "36px";
+	} else if (size_picked == 8) {
+		title_size = "38px";
+	}
+	var i;
+    for (i = 0; i < titles.length; i++) {
+        titles[i].style.fontSize = title_size;
+    }
+}
+
+function changeSubtitleSize() {
+	var z = document.getElementById("size3List");
+	var size_picked = z.options[z.selectedIndex].value;
+	var subtitle_size;
+	var subtitles = document.getElementsByClassName("subtitle");
+
+	if (size_picked == 1) {
+		subtitle_size = "14px";
+	} else if (size_picked == 2) {
+		subtitle_size = "16px";
+	} else if (size_picked == 3) {
+		subtitle_size = "18px";
+	} else if (size_picked == 4) {
+		subtitle_size = "20px";
+	} else if (size_picked == 5) { // Medium
+		subtitle_size = "24px";
+	} else if (size_picked == 6) {
+		subtitle_size = "26px";
+	} else if (size_picked == 7) {
+		subtitle_size = "28px";
+	} else if (size_picked == 8) {
+		subtitle_size = "30px";
+	}
+	var i;
+    for (i = 0; i < subtitles.length; i++) {
+        subtitles[i].style.fontSize = subtitle_size;
+    }
+}
+
+function doEvenMoreStuffAndThings() {
+	var g = document.getElementById("size2List");
+	var tsize_picked = g.options[g.selectedIndex].value;
+	if (tsize_picked == 1) {
+		document.getElementById("textDiv").style.fontSize = "10px";
+	} else if (tsize_picked == 2) {
+		document.getElementById("textDiv").style.fontSize = "11px";
+	} else if (tsize_picked == 3) {
+		document.getElementById("textDiv").style.fontSize = "12px";
+	} else if (tsize_picked == 4) {
+		document.getElementById("textDiv").style.fontSize = "14px";
+	} else if (tsize_picked == 5) { // Medium
+		document.getElementById("textDiv").style.fontSize = "16px";
+	} else if (tsize_picked == 6) {
+		document.getElementById("textDiv").style.fontSize = "18px";
+	} else if (tsize_picked == 7) {
+		document.getElementById("textDiv").style.fontSize = "20px";
+	} else if (tsize_picked == 8) {
+		document.getElementById("textDiv").style.fontSize = "24px";
+	}
+}
+
+function saveTextAsFile() {
+	var g = document.getElementById("dlNote");
+	var typeOfFile = g.options[g.selectedIndex].value;
+
+	var e = document.getElementById("fontList");
+	//console.log(e.options[e.selectedIndex].textContent);
+	var font_picked = e.options[e.selectedIndex].value;
+
+	if (typeOfFile == 1) { // TXT
+		var textToSave = document.getElementsByTagName('div')[3].innerHTML;
+		textToSave = textToSave.replace(/<\s*br[^>]?>/,'\n').replace(/(<([^>]+)>)/g, "");
+		textToSave = textToSave.replace(/(\r\n|\n|\r)/gm, "\n");
+		var textToSaveAsBlob = new Blob([textToSave], {type:"text/plain"});
+		var textToSaveAsURL = window.URL.createObjectURL(textToSaveAsBlob);
+		var fileNameToSaveAs = "note.txt";
+	} else { // HTML
+		var ttsv1;
+		if (font_picked == 1) {
+			ttsv1 = 'Arial, Helvetica, sans-serif';
+		} else if (font_picked == 2) {
+			ttsv1 = '"Times New Roman", Times, serif';
+		} else if (font_picked == 3) {
+			ttsv1 = '"Palatino Linotype", "Book Antiqua", Palatino, serif';
+		} else if (font_picked == 4) {
+			ttsv1 = '"Courier New", Courier, monospace';
+		} else if (font_picked == 5) {
+			ttsv1 = '"Lucida Console", Monaco, monospace';
+		} else if (font_picked == 6) {
+			ttsv1 = '"Comic Sans MS", cursive, sans-serif';
+		} else if (font_picked == 7) {
+			ttsv1 = 'Impact, Charcoal, sans-serif';
+		} else if (font_picked == 8) {
+			ttsv1 = '"Trebuchet MS", Helvetica, sans-serif';
+		} else if (font_picked == 9) {
+			ttsv1 = 'Georgia, serif';
+		} else if (font_picked == 10) {
+			ttsv1 = 'Consolas, Monaco, monospace';
+		} else if (font_picked == 11) {
+			ttsv1 = '"Segoe UI", Lato, Roboto, sans-serif';
+		} else if (font_picked == 12) {
+			ttsv1 = '"Segoe Script", cursive, sans-serif';
+		} else if (font_picked == 13) {
+			ttsv1 = '"Segoe Print", sans-serif';
+		} else if (font_picked == 14) {
+			ttsv1 = '"Roboto Mono", monospace';
+		} else if (font_picked == 15) {
+			ttsv1 = '"Abril Fatface", cursive, serif';
+		} else if (font_picked == 16) {
+			ttsv1 = '"Raleway", sans-serif';
+		} else if (font_picked == 17) {
+			ttsv1 = '"Press Start 2P", cursive';
+		} else if (font_picked == 18) {
+			ttsv1 = '"Pacifico", cursive';
+		} else if (font_picked == 19) {
+			ttsv1 = '"Ubuntu", Roboto, sans-serif';
+		} else if (font_picked == 20) {
+			ttsv1 = '"Roboto Slab", serif';
+		} else if (font_picked == 21) {
+			ttsv1 = '"Merriweather", serif';
+		} else if (font_picked == 22) {
+			ttsv1 = '"Open Sans", sans-serif';
+		}
+		var textToSave = "<div style='font-family: " + ttsv1 + "'>" + document.getElementsByTagName('div')[3].innerHTML;
+		var textToSaveAsBlob = new Blob([textToSave], {type:"text/plain"});
+		var textToSaveAsURL = window.URL.createObjectURL(textToSaveAsBlob);
+		var fileNameToSaveAs = "note.html";
+	}
+    var downloadLink = document.createElement("a");
+    downloadLink.download = fileNameToSaveAs;
+    downloadLink.innerHTML = "Download File";
+    downloadLink.href = textToSaveAsURL;
+    downloadLink.onclick = destroyClickedElement;
+    downloadLink.style.display = "none";
+    document.body.appendChild(downloadLink);
+
+    downloadLink.click();
+}
+
+function destroyClickedElement(event) {
+    document.body.removeChild(event.target);
+}
+
+function addText() {
+	var textDiv = document.getElementById("textDiv");
+	var h = document.getElementById("addstuff");
+	var addType = h.options[h.selectedIndex].value;
+	if (addType == 1) { // Title
+		var newTitle = document.createElement("h1");
+		newTitle.appendChild(document.createTextNode("Title Here"));
+		newTitle.style.fontSize = "32px";
+		newTitle.className = "title";
+		textDiv.appendChild(newTitle);
+	} else if (addType == 2) { // Subtitle
+		var newSubtitle = document.createElement("h2");
+		newSubtitle.appendChild(document.createTextNode("Subtitle Here"));
+		newSubtitle.style.fontSize = "24px";
+		newSubtitle.className = "subtitle";
+		textDiv.appendChild(newSubtitle);
+	} else { // Text
+		var newText = document.createElement("p");
+		newText.appendChild(document.createTextNode("Text Here"));
+		textDiv.appendChild(newText);
+	}
+}
+
+function loadFileAsText() {
+    var fileToLoad = document.getElementById("fileToLoad").files[0];
+
+    var fileReader = new FileReader();
+    fileReader.onload = function(fileLoadedEvent) {
+        var textFromFileLoaded = fileLoadedEvent.target.result;
+        document.getElementById("textDiv").innerHTML = textFromFileLoaded;
+    };
+    fileReader.readAsText(fileToLoad, "UTF-8");
+}
+</script>
+</body>
+</html>
